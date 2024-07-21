@@ -1,7 +1,7 @@
 "use client";
 
 import Spinner from "@/components/custom/Spinner";
-import { formControls, firebaseConfig } from "@/utils";
+import { formControls, firebaseConfig, initialBlogFormData } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { useContext, useState } from "react";
 import { GlobalContext } from "@/context";
@@ -13,6 +13,8 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { BlogFormData } from "@/utils/types";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const app = initializeApp(firebaseConfig);
 const stroage = getStorage(app, "gs://my-blog-e6bb8.appspot.com");
@@ -45,6 +47,10 @@ async function handleImageSaveToFireBase(file: any) {
 export default function Create() {
   const [imageLoading, setImageLoading] = useState<boolean>(false);
   const { formData, setFormData } = useContext(GlobalContext);
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  console.log(session);
 
   async function handleBlogImageChange(
     event: React.ChangeEvent<HTMLInputElement>
@@ -64,6 +70,34 @@ export default function Create() {
       });
     }
   }
+
+  async function handleSaveBlogPost() {
+    console.log(formData);
+
+    const res = await fetch("/api/blog/add-posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...formData,
+        userid: session?.user?.name,
+        userimage: session?.user?.image,
+        comments: [],
+      }),
+    });
+
+    const data = await res.json();
+
+    console.log(data, "data123");
+
+    if (data && data.success) {
+      setFormData(initialBlogFormData);
+      router.push("/blogs");
+    }
+  }
+
+  console.log(formData, "formData");
 
   return (
     <section className="overflow-hidden py-16 md:py-20 lg:py-28">
@@ -166,7 +200,9 @@ export default function Create() {
                       </div>
                     ))}
                     <div className="w-full px-4">
-                      <Button>Create New Blog</Button>
+                      <Button onClick={handleSaveBlogPost}>
+                        Create New Blog
+                      </Button>
                     </div>
                   </div>
                 </div>

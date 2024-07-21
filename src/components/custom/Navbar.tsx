@@ -81,7 +81,7 @@ function NavBar() {
                 </Link>
               </li>
               <li className="text-xl text-white py-4 px-6 text-center hover:bg-purple-600 md:hover:text-purple-600 md:hover:bg-transparent">
-                <Link href="#blogs" onClick={() => setNavbar(false)}>
+                <Link href="/blogs" onClick={() => setNavbar(false)}>
                   Blogs
                 </Link>
               </li>

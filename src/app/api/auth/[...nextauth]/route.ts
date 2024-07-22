@@ -10,11 +10,29 @@ const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
+    async signIn({ user }) {
+      console.log("SignIn callback triggered");
+      if (user) {
+        console.log("User:", user);
+      } else {
+        console.log("User not found");
+      }
+
+      if (user.name === "Razi Benvidi") {
+        console.log("User allowed:", user);
+        return true;
+      } else {
+        console.log("User not allowed:", user);
+        return false;
+      }
+    },
     async session({ session, token }: any) {
+      console.log("Session callback triggered");
       session.user.name = `${session?.user?.name}_${token?.sub}`;
       return session;
     },
   },
+
   secret: process.env.NEXTAUTH_SECRET,
 };
 

@@ -14,7 +14,7 @@ export const menuItems: menuItem[] = [
   {
     id: "category",
     label: "Category",
-    path: "/category",
+    path: "/category/application",
   },
   {
     id: "contact",

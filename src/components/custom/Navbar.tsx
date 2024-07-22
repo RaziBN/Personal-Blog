@@ -71,13 +71,13 @@ function NavBar() {
           <div
             className={`flex-1 justify-self-center pb-3 mt-8 md:flex md:pb-0 md:mt-0 ${
               navbar ? "block" : "hidden"
-            } md:block`}
+            } md:block z-index:30`}
           >
             <ul className="items-center justify-center space-x-4 md:flex md:flex-row md:flex-1">
               {/* Menu Items */}
               <li className="text-xl text-white py-4 px-6 text-center hover:bg-purple-600 md:hover:text-purple-600 md:hover:bg-transparent">
-                <Link href="#about" onClick={() => setNavbar(false)}>
-                  About
+                <Link href="/" onClick={() => setNavbar(false)}>
+                  Home
                 </Link>
               </li>
               <li className="text-xl text-white py-4 px-6 text-center hover:bg-purple-600 md:hover:text-purple-600 md:hover:bg-transparent">
@@ -86,12 +86,12 @@ function NavBar() {
                 </Link>
               </li>
               <li className="text-xl text-white py-4 px-6 text-center hover:bg-purple-600 md:hover:text-purple-600 md:hover:bg-transparent">
-                <Link href="#projects" onClick={() => setNavbar(false)}>
-                  Projects
+                <Link href="/category/[id]" onClick={() => setNavbar(false)}>
+                  Category
                 </Link>
               </li>
               <li className="text-xl text-white py-4 px-6 text-center hover:bg-purple-600 md:hover:text-purple-600 md:hover:bg-transparent">
-                <Link href="#contact" onClick={() => setNavbar(false)}>
+                <Link href="/contact" onClick={() => setNavbar(false)}>
                   Contact
                 </Link>
               </li>

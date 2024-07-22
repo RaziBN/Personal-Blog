@@ -5,8 +5,8 @@ import NextAuth from "next-auth/next";
 const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
-      clientId: "Iv23liY5XuM1GDHouBJX",
-      clientSecret: "7a7d92bcd8391fc957c7637d4a79b0d48ba757c9",
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
   callbacks: {
@@ -15,7 +15,7 @@ const authOptions: AuthOptions = {
       return session;
     },
   },
-  secret: "default_secret_key",
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const nextAuth = NextAuth(authOptions);

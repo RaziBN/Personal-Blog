@@ -10,7 +10,10 @@ export async function PUT(request: NextRequest) {
         id: Number(extractData.id),
       },
       data: {
-        comments: extractData.comments,
+        title: extractData.title,
+        description: extractData.description,
+        category: extractData.category,
+        image: extractData.image,
       },
     });
 

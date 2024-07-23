@@ -1,6 +1,6 @@
 "use client";
 
-import { Blog } from "@/utils/types";
+import { Blog, BlogFormData } from "@/utils/types";
 import SingleBlog from "../single-blog";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -25,6 +25,11 @@ export default function BlogList({ lists }: { lists: Blog[] }) {
     if (data && data.success) router.refresh();
   }
 
+  async function handleEdit(id: number) {
+    console.log(id);
+    router.push(`./update?id=${id}`);
+  }
+
   return (
     <section className="pt-[120px] pb-[120px]">
       <div className="container">
@@ -32,7 +37,11 @@ export default function BlogList({ lists }: { lists: Blog[] }) {
           {lists && lists.length
             ? lists.map((listItem: Blog) => (
                 <div className="px-4" key={listItem.id}>
-                  <SingleBlog handleDelete={handleDelete} blogItem={listItem} />
+                  <SingleBlog
+                    handleDelete={handleDelete}
+                    handleEdit={handleEdit}
+                    blogItem={listItem}
+                  />
                 </div>
               ))
             : null}

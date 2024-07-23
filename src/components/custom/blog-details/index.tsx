@@ -1,55 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Blog } from "@/utils/types";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function BlogDetailsHome({ blogData }: { blogData: Blog }) {
   console.log(blogData, "blogData");
-
-  const [comment, setComment] = useState<string>("");
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  async function handleCommentSave() {
-    let extractComments = [...blogData.comments];
-
-    extractComments.push(`${comment}|${session?.user?.name}`);
-
-    const response = await fetch(`/api/blog-post/update-post`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: blogData?.id,
-        comments: extractComments,
-      }),
-    });
-
-    const data = await response.json();
-
-    console.log(data, "comment123");
-
-    if (data && data.success) {
-      setComment("");
-      router.refresh();
-    }
-  }
-
-  useEffect(() => {
-    let interval = setInterval(() => {
-      router.refresh();
-    }, 2000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   if (!blogData) return null;
 
@@ -83,7 +39,7 @@ export default function BlogDetailsHome({ blogData }: { blogData: Blog }) {
                   </div>
                   <div className="mb-5">
                     <Link
-                      className="inline-flex items-center justify-center rounded-full bg-primary py-2 px-4 text-sm font-semibold text-white"
+                      className="inline-flex items-center justify-center rounded-full bg-blue-500 py-2 px-4 text-sm font-semibold text-white"
                       href={`/category/${blogData?.category}`}
                     >
                       {blogData?.category}
@@ -107,55 +63,6 @@ export default function BlogDetailsHome({ blogData }: { blogData: Blog }) {
                 </div>
               </div>
             </div>
-            <div className="w-full lg:w-8/12 flex gap-4">
-              {session !== null ? (
-                <>
-                  <input
-                    name="comment"
-                    id="comment"
-                    autoFocus
-                    autoComplete="off"
-                    placeholder="Add comment here"
-                    value={comment}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setComment(event.target.value)
-                    }
-                    className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
-                  />
-                  <Button onClick={handleCommentSave}>Add</Button>
-                </>
-              ) : null}
-            </div>
-            <section className="dark:bg-gray-900 py-8 lg:py-16 w-full lg:w-8/12">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-lg lg:text-2xl font-bold text-black dark:text-white">
-                  Discussion ({blogData?.comments.length})
-                </h2>
-              </div>
-              {blogData && blogData.comments && blogData.comments.length > 0
-                ? blogData.comments.map((comment, index) => (
-                    <div
-                      key={index}
-                      className="p-6 text-base rounded-lg dark:bg-gray-900"
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <div className="flex items-center">
-                          <p className="inline-flex items-center mr-3 text-sm text-black dark:text-white font-semibold">
-                            {comment.split("|")[1] === blogData?.userid
-                              ? `${
-                                  comment.split("|")[1].split("_")[0]
-                                } (Author)`
-                              : comment.split("|")[1].split("_")[0]}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="text-gray-500 dark:text-gray-400">
-                        {comment.split("|")[0]}
-                      </p>
-                    </div>
-                  ))
-                : null}
-            </section>
           </div>
         </div>
       </section>

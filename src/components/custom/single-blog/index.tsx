@@ -1,15 +1,17 @@
-import { Blog } from "@/utils/types";
+import { Blog, BlogFormData } from "@/utils/types";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaEdit } from "react-icons/fa";
 
 export default function SingleBlog({
   blogItem,
   handleDelete,
+  handleEdit,
 }: {
   blogItem: Blog;
   handleDelete: (id: number) => {};
+  handleEdit: (id: number) => {};
 }) {
   const { image, category, title, description, userimage, userid, id } =
     blogItem;
@@ -62,6 +64,15 @@ export default function SingleBlog({
                   onClick={() => handleDelete(id)}
                   size={20}
                   className="cursor-pointer ml-10"
+                />
+              ) : null}
+            </div>
+            <div>
+              {session !== null && session?.user?.name === userid ? (
+                <FaEdit
+                  onClick={() => handleEdit(id)}
+                  size={20}
+                  className="cursor-pointer ml-2"
                 />
               ) : null}
             </div>

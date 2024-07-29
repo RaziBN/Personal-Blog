@@ -181,7 +181,6 @@ export default function Create() {
                         ) : control.component === "select" ? (
                           <select
                             name={control.id}
-                            placeholder={control.placeholder}
                             onChange={(
                               event: React.ChangeEvent<HTMLSelectElement>
                             ) => {
@@ -191,6 +190,7 @@ export default function Create() {
                               });
                             }}
                             value={formData[control.id as keyof BlogFormData]}
+                            title={control.label} // Add title attribute with a descriptive name
                             className="w-full mb-8 rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
                           >
                             <option id="" value={""}>

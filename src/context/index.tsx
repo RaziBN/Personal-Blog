@@ -23,7 +23,7 @@ type ContextType = {
 
 const initialState = {
   loading: false,
-  setloading: () => {},
+  setLoading: () => {},
   formData: initialBlogFormData,
   setFormData: () => {},
 };

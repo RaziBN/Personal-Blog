@@ -6,29 +6,51 @@ export async function DELETE(req: NextRequest) {
     const url = new URL(req.url);
     const extractIdOfBlogItemToBeDeleted = url.searchParams.get("id");
 
-    const deletedBlogPost = await prisma.post.delete({
+    if (!extractIdOfBlogItemToBeDeleted) {
+      return NextResponse.json({
+        success: false,
+        message: "ID parameter is missing",
+      });
+    }
+
+    const id = Number(extractIdOfBlogItemToBeDeleted);
+
+    if (isNaN(id)) {
+      return NextResponse.json({
+        success: false,
+        message: "Invalid ID parameter",
+      });
+    }
+
+    // Check if the post exists
+    const post = await prisma.post.findUnique({
+      where: { id: id },
+    });
+
+    if (!post) {
+      return NextResponse.json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+
+    // Delete the post
+    await prisma.post.delete({
       where: {
-        id: Number(extractIdOfBlogItemToBeDeleted),
+        id: id,
       },
     });
 
-    if (deletedBlogPost) {
-      return NextResponse.json({
-        success: true,
-        message: "Blog deleted successfully",
-      });
-    } else {
-      return NextResponse.json({
-        success: false,
-        message: "Failed to delete the blog ! Please try again",
-      });
-    }
+    return NextResponse.json({
+      success: true,
+      message: "Blog deleted successfully",
+    });
   } catch (e) {
-    console.log(e);
+    console.error(e);
 
     return NextResponse.json({
       success: false,
-      message: "Something went wrong ! Please try again",
+      message: "Something went wrong! Please try again",
     });
   }
 }

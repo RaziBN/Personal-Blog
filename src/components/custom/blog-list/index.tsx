@@ -10,7 +10,7 @@ export default function BlogList({ lists }: { lists: Blog[] }) {
 
   useEffect(() => {
     router.refresh();
-  }, []);
+  }, [router]);
 
   async function handleDelete(id: number) {
     console.log(id);

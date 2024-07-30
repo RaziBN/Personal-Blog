@@ -9,10 +9,10 @@ const authOptions: AuthOptions = {
     GithubProvider({
       clientId: isProduction
         ? process.env.GITHUB_ID_PROD ?? ""
-        : process.env.GITHUB_ID ?? "",
+        : process.env.GITHUB_ID_LOCAL ?? "",
       clientSecret: isProduction
         ? process.env.GITHUB_SECRET_PROD ?? ""
-        : process.env.GITHUB_SECRET ?? "",
+        : process.env.GITHUB_SECRET_LOCAL ?? "",
     }),
   ],
   callbacks: {

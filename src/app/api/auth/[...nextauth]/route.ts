@@ -29,13 +29,6 @@ const authOptions: AuthOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/auth/signin",
-    signOut: "/auth/signout",
-    error: "/auth/error",
-    verifyRequest: "/auth/verify-request",
-    newUser: undefined,
-  },
   debug: true,
 };
 

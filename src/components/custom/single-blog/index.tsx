@@ -3,14 +3,13 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaTrash, FaEdit } from "react-icons/fa";
+import { deleteBlogPost } from "@/lib/action";
 
 export default function SingleBlog({
   blogItem,
-  handleDelete,
   handleEdit,
 }: {
   blogItem: Blog;
-  handleDelete: (id: number) => {};
   handleEdit: (id: number) => {};
 }) {
   const { image, category, title, description, userimage, userid, id } =
@@ -61,7 +60,7 @@ export default function SingleBlog({
             <div>
               {session !== null && session?.user?.name === userid ? (
                 <FaTrash
-                  onClick={() => handleDelete(id)}
+                  onClick={async () => await deleteBlogPost(id)}
                   size={20}
                   className="cursor-pointer ml-10"
                 />
